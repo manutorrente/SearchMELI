@@ -17,7 +17,7 @@ items.pop(0)#delete the title row
 
 for i in range(len(items)):
     
-    l=search_ml(items[i][0])
+    search_raw=search_ml(items[i][0])
     
      #checks if there are any forbidden or required words. In case there arent, sets the variables to unrecognizable random strings
     forbidden=items[i][3]
@@ -25,22 +25,25 @@ for i in range(len(items)):
         forbidden="Requirement already satisfied: chardeyt<3.1.0,>=3.0.2 in "
     required=items[i][4]        
         
-    for f in l:
+    for publications in search_raw:
     #check conditions
-        title=f["title"].lower()
-        if f["price"]<(float(items[i][2])+1):
-            l.remove(f)
-        elif f["price"]>(float(items[i][1])-1):
-            l.remove(f)
+        title=publications["title"].lower()
+        if publications["price"]<(float(items[i][2])+1):
+            search_raw.remove(publications)
+        elif publications["price"]>(float(items[i][1])-1):
+            search_raw.remove(publications)
         elif forbidden in title:
-            l.remove(f)
+            search_raw.remove(publications)
         elif not required in title:
-            l.remove(f)
-    l=sorted(l, key=lambda x: x["price"])#sort the results by price        
+            search_raw.remove(publications)
+    
+    
+    search_sorted=sorted(search_raw, key=lambda x: x["price"])#sort the results by price        
+    
     print("cheapest publications for {}:\ncurrent prices: {},{}\n".format(items[i][0],items[i][1], items[i][2]))        
     for h in range(5):
         #cheapest publications
-        print("{}, price: {}".format(l[h]["title"],l[h]["price"] ))
+        print("{}, price: {}".format(search_sorted[h]["title"],search_sorted[h]["price"] ))
     #options
     change=input("Change price? (y/n)\nto exit enter e: ")
     
@@ -50,6 +53,7 @@ for i in range(len(items)):
         floor_p=int(input("New floor price? "))
         w.update_cell(i+2, 2, min_p)
         w.update_cell(i+2, 3, floor_p)
+    #exit
     if change=="e":
         sys.exit()
 

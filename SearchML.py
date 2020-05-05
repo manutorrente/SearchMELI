@@ -50,10 +50,10 @@ ids.pop(0)
 results=[]
 for i in range(len(items)):
         
-   l=search_ml(items[i][0])
+   search_raw=search_ml(items[i][0])
         
         #sort by price
-   d=sorted(l, key=lambda x: x["price"])#sort the results by price
+   search_sorted=sorted(search_raw, key=lambda x: x["price"])#sort the results by price
    low_p=False
         
         #checks if there are any forbidden or required words. In case there arent, sets the variables to unrecognizable random strings
@@ -63,18 +63,18 @@ for i in range(len(items)):
    required=items[i][4]
 
         #check conditions
-   for f in d:
-        title=f["title"].lower()
-        if f["price"]<(float(items[i][2])+1):
+   for publication in search_sorted:
+        title=publication["title"].lower()
+        if publication["price"]<(float(items[i][2])+1):
             pass
-        elif f["price"]>(float(items[i][1])-1):
+        elif publication["price"]>(float(items[i][1])-1):
             pass
         elif forbidden in title:
             pass
         elif not required in title:
             pass
         else:
-            low_p=f
+            low_p=publication
             break
             
              
@@ -86,13 +86,13 @@ for i in range(len(items)):
    
     
 if len(results)>0:
-    r=["Found {} result/s: ".format(len(results))]        
+    results_str=["Found {} result/s: ".format(len(results))]        
     for i in results:
         rf="\n{} : {}$\n{}".format(i["title"], i["price"], i["permalink"])
-        r.append(rf)
+        results_str.append(rf)
     
-r="".join(r)
-send_mail("%from%", "%password%", "%to%", "MercadoLibre publications found", r)
+results_str="".join(results_str)
+send_mail("%from%", "%password%", "%to%", "MercadoLibre publications found", results_str)
         
 
     
