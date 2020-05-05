@@ -1,21 +1,30 @@
 ##SearchMLv1.0
+
 This script allows you to input items and their prices on a google spreadsheet and check their price regularly. 
 It is intended to be run periodically, and if anything is found marching the criteria another spreadsheet will be updated and an email will be sent to you
 UpdateML.py is a tool to update the items you already have quicker
 
 #Requisites
+
 A google account
+
 Python (it is written in python 3.7)
 libraries used:
+
 -gspread
+
 -requests
+
 -smtplib
+
 -time
+
 -json
 I think that all these come built in with python except for gspread
 gspread installation: pip install gspread
 
 #Configuration
+
 1-Download the repository
 
 2-You´ll need a google service account. It that can be created by following the steps in this link.
@@ -45,4 +54,5 @@ and are used to narrow the search parameters to the items intended.
 3-If the script finds anything, it will appear in PublicacionesML with its link. 
 
 ##Hope its useful to you. I'm open to any kind of suggestions and critics.
+
 Thank You
