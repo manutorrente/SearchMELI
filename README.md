@@ -53,3 +53,7 @@ https://gspread.readthedocs.io/en/latest/oauth2.html#enable-api-access
 ##Hope its useful to you. I'm open to any kind of suggestions and critics.
 
 Thank You
+
+#Updates-------------------------------------------------------------------------------------------------------------------------------
+
+(5/5/20): 1.1 Changed variable names and comments for readability
