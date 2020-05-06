@@ -57,4 +57,5 @@ Thank You
 # Updates-------------------------------------------------------------------------------------------------------------------------------
 
 (5/5/20)1.1: Changed variable names and comments for readability
+
 (6/5/29)1.2: Fixed an error with smtplib encoding by changing some strings to f strings
