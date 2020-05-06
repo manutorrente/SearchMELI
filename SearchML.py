@@ -27,7 +27,7 @@ def send_mail(sender, password, to, subject, message):
     con.ehlo()
     con.starttls()
     con.login(sender, password)
-    con.sendmail(sender, to, "Subject: {}\n\n{}\n\n".format(subject, message))
+    con.sendmail(sender, to, f"Subject: {subject}\n\n{message}\n\n")
     
 
 
@@ -86,9 +86,9 @@ for i in range(len(items)):
    
     
 if len(results)>0:
-    results_str=["Found {} result/s: ".format(len(results))]        
+    results_str=[f"Found {len(results} result/s: "]        
     for i in results:
-        rf="\n{} : {}$\n{}".format(i["title"], i["price"], i["permalink"])
+        rf=f"\n{i['title']} : {i['price']}$\n{i['permalink']}"
         results_str.append(rf)
     
 results_str="".join(results_str)
