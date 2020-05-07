@@ -38,9 +38,11 @@ https://gspread.readthedocs.io/en/latest/oauth2.html#enable-api-access
 
 5-Open the .xlsx that came with the scripts in spreadsheets and share them with the email from the last step. If you don't change the names, you shouldn't have any problems with the calls. 
 
+6-If you are from other countries other than Argentina, you need to change the site code from the API link. If you are from Brazil for example, replace MLA with MLB.
+
 (Optional)If you don't want to use the email feature, just comment the send_mail() method and its call.
 
-6-Set up the send_email method to receive a notification via email. Replace %from%, %password% and %to% with your personal information from your google account. You can either use a secondary account to send the emails or send them to yourself.
+7-Set up the send_email method to receive a notification via email. Replace %from%, %password% and %to% with your personal information from your google account. You can either use a secondary account to send the emails or send them to yourself.
 
 # Use-----------------------------------------------------------------------------------------------------------------------------
 
