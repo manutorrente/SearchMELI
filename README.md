@@ -61,3 +61,5 @@ Thank You
 (5/5/20)1.1: Changed variable names and comments for readability
 
 (6/5/29)1.2: Fixed an error with smtplib encoding by changing some strings to f strings
+
+(8/5/20)1.3: Added MethodsML.py file to use as a module, instead of having the methods on SearchML.py. Corrected minor mistakes and added variables.
