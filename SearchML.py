@@ -1,56 +1,29 @@
-import gspread
-import requests as rq
 import json
-import time
-import smtplib as mail
-
-
-
-def get_date():
-    f = '%Y-%m-%d %H:%M'
-    now = time.localtime()
-    return time.strftime(f, now)
+from MethodsML import *
 
 date=get_date()
+json_file="%service_account.json%"
+num_paginas=4
 
-def search_ml(search):
-    busqueda=search.replace(" ", "%20")
-    l=[]
-    for b in range(4):
-        r=rq.get("https://api.mercadolibre.com/sites/MLA/search?q={}&limit=50&offset=".format(busqueda)+str(b*50)).json()
-        for a in r["results"]:
-            l.append(a)
-    return l
-
-def send_mail(sender, password, to, subject, message):
-    con=mail.SMTP("smtp.gmail.com", 587)
-    con.ehlo()
-    con.starttls()
-    con.login(sender, password)
-    con.sendmail(sender, to, f"Subject: {subject}\n\n{message}\n\n")
-    
-
-
-#open google service account with gspread https://gspread.readthedocs.io/en/latest/oauth2.html#enable-api-access
-gc = gspread.service_account(filename="%service_account.json%")
-
+#open google service account with gspread 
 #Get the item spreadsheet values on a list of lists
-sh = gc.open("ItemsML")
-w=sh.get_worksheet(0)
+w=open_sheet("ItemsML", 0, json_file)
 items=w.get_all_values()
 items.pop(0)#delete the title row
 
 #get the ids of the already found publications
-sh1=gc.open("PublicacionesML")
-w1=sh1.get_worksheet(0)
+w1=open_sheet("PublicacionesML", 0, json_file)
 ids=w1.col_values(2)
 ids.pop(0)
+
+ #Sets the number of pages the scripts searches (max 20)
+
 
 #search for the items in mercado libre
 results=[]
 for i in range(len(items)):
         
-   search_raw=search_ml(items[i][0])
+   search_raw=search_ml(items[i][0], num_paginas)
         
         #sort by price
    search_sorted=sorted(search_raw, key=lambda x: x["price"])#sort the results by price
@@ -59,7 +32,7 @@ for i in range(len(items)):
         #checks if there are any forbidden or required words. In case there arent, sets the variables to unrecognizable random strings
    forbidden=items[i][3]
    if items[i][3]=="":
-       forbidden="Requirement already satisfied: chardet<3.1.0,>=3.0.2 in "
+       forbidden="{}"
    required=items[i][4]
 
         #check conditions
@@ -86,13 +59,12 @@ for i in range(len(items)):
    
     
 if len(results)>0:
-    results_str=[f"Found {len(results} result/s: "]        
+    results_str=[f"Found {len(results)} result/s: "]        
     for i in results:
         rf=f"\n{i['title']} : {i['price']}$\n{i['permalink']}"
         results_str.append(rf)
-    
-results_str="".join(results_str)
-send_mail("%from%", "%password%", "%to%", "MercadoLibre publications found", results_str)
+    results_str="".join(results_str)
+    send_mail("%from%", "%password%", "%to%", "MercadoLibre publications found", results_str)
         
 
     

@@ -1,16 +1,13 @@
-import gspread
-import requests as rq
 import json
 import sys
-from SearchML import search_ml
+from MethodsML import search_ml, open_sheets
 
 
-#open google service account with gspread https://gspread.readthedocs.io/en/latest/oauth2.html#enable-api-access
-gc = gspread.service_account(filename="%service_account.json%")
+
+json_file="%service_account.json%"
 
 #Get the item spreadsheet values on a list of lists
-sh = gc.open("ItemsML")
-w=sh.get_worksheet(0)
+w=open_sheets("ItemsML", 0, json_file)
 items=w.get_all_values()
 items.pop(0)#delete the title row
 
