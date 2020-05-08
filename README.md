@@ -4,7 +4,7 @@ This script allows you to input items and their prices on a google spreadsheet a
 It is intended to be run periodically, and if anything is found marching the criteria another spreadsheet will be updated and an email will be sent to you
 UpdateML.py is a tool to update the items you already have quicker
 
-# Requisites----------------------------------------------------------------------------------------------------------------------
+# Requisites
 
 A google account
 
@@ -25,7 +25,7 @@ I think that all these come built in with python except for gspread gspread
 
 installation: pip install gspread
 
-# Configuration------------------------------------------------------------------------------------------------------------------------
+# Configuration
 
 1-Download the repository
 
@@ -44,7 +44,7 @@ https://gspread.readthedocs.io/en/latest/oauth2.html#enable-api-access
 
 7-Set up the send_email method to receive a notification via email. Replace %from%, %password% and %to% with your personal information from your google account. You can either use a secondary account to send the emails or send them to yourself.
 
-# Use-----------------------------------------------------------------------------------------------------------------------------
+# Use
 
 1-Fill the ItemsML sheet with the searches you want to make. The item field is the textual search in MercadoLibre, the low_price is the price the script will below, and the floor_price is the lower limit of the search, in case you need one. The forbidden and required are optional. They are meant for words that should or should not appear in the title, and are used to narrow the search parameters to the items intended.
 
@@ -56,7 +56,7 @@ https://gspread.readthedocs.io/en/latest/oauth2.html#enable-api-access
 
 Thank You
 
-# Updates-------------------------------------------------------------------------------------------------------------------------------
+# Updates
 
 (5/5/20)1.1: Changed variable names and comments for readability
 
