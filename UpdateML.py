@@ -2,7 +2,7 @@ import gspread
 import requests as rq
 import json
 import sys
-from checkmercado import search_ml
+from SearchML import search_ml
 
 
 #open google service account with gspread https://gspread.readthedocs.io/en/latest/oauth2.html#enable-api-access
