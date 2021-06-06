@@ -1,4 +1,4 @@
-## SearchML v1.3
+## SearchML v2.0
 
 This script allows you to input items and their prices on a google spreadsheet and check their price regularly. 
 It is intended to be run periodically, and if anything is found marching the criteria another spreadsheet will be updated and an email will be sent to you
