@@ -1,70 +1,58 @@
-import json
-from MethodsML import *
-
-date=get_date()
-json_file="%service_account.json%"
-num_paginas=4
-
-#open google service account with gspread 
-#Get the item spreadsheet values on a list of lists
-w=open_sheet("ItemsML", 0, json_file)
-items=w.get_all_values()
-items.pop(0)#delete the title row
-
-#get the ids of the already found publications
-w1=open_sheet("PublicacionesML", 0, json_file)
-ids=w1.col_values(2)
-ids.pop(0)
-
- #Sets the number of pages the scripts searches (max 20)
+from MethodsML import get_date, send_mail, open_sheet
+from ClassML import SearchML
 
 
-#search for the items in mercado libre
-results=[]
-for i in range(len(items)):
-        
-   search_raw=search_ml(items[i][0], num_paginas)
-        
-        #sort by price
-   search_sorted=sorted(search_raw, key=lambda x: x["price"])#sort the results by price
-   low_p=False
-        
-        #checks if there are any forbidden or required words. In case there arent, sets the variables to unrecognizable random strings
-   forbidden=items[i][3]
-   if items[i][3]=="":
-       forbidden="{}"
-   required=items[i][4]
 
-        #check conditions
-   for publication in search_sorted:
-        title=publication["title"].lower()
-        if publication["price"]<(float(items[i][2])+1):
-            pass
-        elif publication["price"]>(float(items[i][1])-1):
-            pass
-        elif forbidden in title:
-            pass
-        elif not required in title:
-            pass
-        else:
-            low_p=publication
-            break
-            
-             
-   if low_p!=False and (low_p["id"] not in ids):        
-        results.append(low_p)#list of publications with low prices
-        #add to the publications spreadsheet
-        w1.append_row([items[i][0], low_p["id"], low_p["title"], low_p["price"], low_p["permalink"], date])
-       
-   
+json_key_file="%service_account.json%" #json key for google service account
+num_pages=5 #number of pages of ML you want to go through. API might throw an error if you go high enough
+
+
+items_ws=open_sheet("ItemsML", 0, json_key_file)
+items=items_ws.get_all_values() #gets worksheet as a list of lists
+items.pop(0) #removes the title row
+
+
+results_ws=open_sheet("ResultsML", 0, json_key_file)
+existent_ids=results_ws.col_values(2) #get the values of the existent publication ids to avoid repetition later on
+existent_ids.pop(0)
+
+
+searchML=SearchML(num_pages)
+results_found=[]
+
+for search in items:
     
-if len(results)>0:
-    results_str=[f"Found {len(results)} result/s: "]        
-    for i in results:
-        rf=f"\n{i['title']} : {i['price']}$\n{i['permalink']}"
-        results_str.append(rf)
-    results_str="".join(results_str)
-    send_mail("%from%", "%password%", "%to%", "MercadoLibre publications found", results_str)
+    searchML.search_API(search)
+    
+    results=searchML.final_results
+    
+    for result in results:
+        
+        if result["id"] not in existent_ids:
+            
+            results_found.append(result)
+        
+            results_ws.append_row([search[0], result["id"], result["title"], result["price"], result["permalink"], get_date()])
+            
+
+
+#check if any new publications were found and send a mail
+if len(results_found) > 0:
+
+    message = f"Found {len(results_found)} result/s"
+    
+    for result in results:
+        
+        result_des = "\n{} a {}$\n{}".format(result["title"], result["price"], result["permalink"])
+        message += result_des
+        
+    #send_mail("%from%", "%password%", "%to%", "MercadoLibre publications found", message)
+
+
+
+
+
+
         
 
     

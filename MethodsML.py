@@ -1,9 +1,6 @@
 import gspread
-import requests as rq
-import json
 import time
 import smtplib as mail
-
 
 
 def get_date():
@@ -11,17 +8,6 @@ def get_date():
     now = time.localtime()
     return time.strftime(f, now)
 
-
-
-def search_ml(search, num_paginas):
-    busqueda=search.replace(" ", "%20")
-    l=[]
-    url="https://api.mercadolibre.com/sites/MLA/search?q={}&limit=50&offset=".format(busqueda)
-    for b in range(num_paginas):
-        r=rq.get(url+str(b*50)).json()
-        for a in r["results"]:
-            l.append(a)
-    return l
 
 def send_mail(sender, password, to, subject, message):
     con=mail.SMTP("smtp.gmail.com", 587)
@@ -36,3 +22,4 @@ def open_sheet(file, worksheet, json_file):
     sheet=gc.open(file)
     worksheet=sheet.get_worksheet(worksheet)
     return worksheet
+
