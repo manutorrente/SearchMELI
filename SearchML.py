@@ -12,6 +12,10 @@ items=items_ws.get_all_values() #gets worksheet as a list of lists
 items.pop(0) #removes the title row
 
 
+if ['', '', '', '', '', '', ''] in items: #removes empty rows
+    items.remove(['', '', '', '', '', '', ''])
+
+
 results_ws=open_sheet("ResultsML", 0, json_key_file)
 existent_ids=results_ws.col_values(2) #get the values of the existent publication ids to avoid repetition later on
 existent_ids.pop(0)
@@ -24,11 +28,11 @@ for search in items:
     
     searchML.search_API(search)
     
-    results=searchML.final_results
+    results=searchML.final_results #perform the search with the class
     
     for result in results:
         
-        if result["id"] not in existent_ids:
+        if result["id"] not in existent_ids:#make sure the the publication was not already found
             
             results_found.append(result)
         
