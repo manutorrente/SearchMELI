@@ -4,18 +4,6 @@ This script allows you to input items and their prices on a google spreadsheet a
 It is intended to be run periodically, and if anything is found matching the criteria another spreadsheet will be updated and an email will be sent to you
 UpdateML.py is a tool to update the items you already have quicker
 
-# Use
-
-1-Fill the ItemsML sheet with the searches you want to make. The item field is the textual search in MercadoLibre, the low_price is the price the script will below, and the floor_price is the lower limit of the search, in case you need one. The required and forbidden words camps are meant for words that must or must not appear in the title, and are used to narrow the search parameters to the items intended. Condition takes either "new" or "used" (without quotation marks) or nothing if all results are desired. Forbidden ids takes publication ids (MLA854535947, for example) in case you want to exclude a specific publication. All the parameters are optional except for low price. Here's an example:
-
-![Items Example](/Images/Items_example.png)
-
-2-Find a way to keep the script running periodically. Daily, hourly, as you wish. I can recommend a free account on pythonanywhere.com that allows you to schedule 1 task daily in the cloud.
-
-3-If the script finds anything, it will appear in ResultsML with its link. The results will appear this way:
-
-![Results example](/Images/Results_example.png)
-
 
 # Set-up
 
@@ -35,6 +23,19 @@ https://gspread.readthedocs.io/en/latest/oauth2.html#enable-api-access
 (Optional)If you don't want to use the email feature, just leave the send_mail() call commented.
 
 7-Set up the send_email method to receive a notification via email. Replace %from%, %password% and %to% with your personal information from your google account. You can either use a secondary account to send the emails or send them to yourself.
+
+# Use
+
+1-Fill the ItemsML sheet with the searches you want to make. The item field is the textual search in MercadoLibre, the low_price is the price the script will below, and the floor_price is the lower limit of the search, in case you need one. The required and forbidden words camps are meant for words that must or must not appear in the title, and are used to narrow the search parameters to the items intended. Condition takes either "new" or "used" (without quotation marks) or nothing if all results are desired. Forbidden ids takes publication ids (MLA854535947, for example) in case you want to exclude a specific publication. All the parameters are optional except for low price. Here's an example:
+
+![Items Example](/Images/Items_example.png)
+
+2-Find a way to keep the script running periodically. Daily, hourly, as you wish. I can recommend a free account on pythonanywhere.com that allows you to schedule 1 task daily in the cloud.
+
+3-If the script finds anything, it will appear in ResultsML with its link. The results will appear this way:
+
+![Results example](/Images/Results_example.png)
+
 
 # Support Scripts
 
