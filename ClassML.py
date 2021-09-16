@@ -1,6 +1,6 @@
 import requests as rq
 import json
-
+import urllib.parse
 
 
     
@@ -15,7 +15,7 @@ class SearchML():
     #builds API link in accordance to the parameters provided in a list
     #[search, lowest_price, floor_price, forbidden_words, required words, forbidden_ids, condition]
     def build_link(self, search_parameters):
-        search=search_parameters[0].replace(" ", "%20")
+        search=urllib.parse.quote(search_parameters[0])
         return self.url.format(search, search_parameters[6])
     
     
